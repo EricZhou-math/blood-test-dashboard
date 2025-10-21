@@ -54,23 +54,24 @@ if [[ "$CURRENT_BRANCH" != "main" ]]; then
   git branch -M main
 fi
 
-# Add GitHub remote with token for push
+# Add GitHub remote without embedding token
 if git remote get-url github >/dev/null 2>&1; then
   git remote remove github || true
 fi
-GITHUB_REMOTE_URL="https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com/${GITHUB_USER}/${REPO_NAME}.git"
-
+CLEAN_REMOTE_URL="https://github.com/${GITHUB_USER}/${REPO_NAME}.git"
 echo "[INFO] Adding GitHub remote: github"
-git remote add github "$GITHUB_REMOTE_URL"
+git remote add github "$CLEAN_REMOTE_URL"
 
-# Push to GitHub
+# Push to GitHub using askpass helper (no token stored in config)
 echo "[INFO] Pushing to GitHub..."
-# Avoid leaking token in local git config after push
 GIT_ASKPASS_HELPER=$(mktemp)
-cat >"$GIT_ASKPASS_HELPER" <<'EOF'
+cat >"$GIT_ASKPASS_HELPER" <<EOF
 #!/usr/bin/env bash
-# noop
-exit 0
+case "$1" in
+  *Username*) echo "$GITHUB_USER" ;;
+  *Password*|*token*) echo "$GITHUB_TOKEN" ;;
+  *) echo "" ;;
+esac
 EOF
 chmod +x "$GIT_ASKPASS_HELPER"
 GIT_ASKPASS="$GIT_ASKPASS_HELPER" git push -u github main
