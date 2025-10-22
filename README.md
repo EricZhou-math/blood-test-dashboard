@@ -2,10 +2,10 @@
 
 ## 🔗 国内快速访问
 推荐用手机扫描下方二维码，或直接访问链接：
-`https://ericzhou_math.gitee.io/blood-test-dashboard/`
+`https://ericzhou-math.github.io/blood-test-dashboard/`
 ![项目访问二维码](https://cdn.jsdelivr.net/gh/EricZhou-math/blood-test-dashboard@main/qrcode.png?v=20251022)
 - 备用：直接嵌入Base64见文件 `qrcode_base64.txt`
-> 说明：jsDelivr 不渲染 HTML 页面，作为资源 CDN 较快；入口请使用上方 Gitee Pages 或 RawGitHack。
+> 说明：jsDelivr 不渲染 HTML 页面，作为资源 CDN 较快；入口请使用上方 GitHub Pages 或 RawGitHack。
 > RawGitHack 备用入口（可渲染 HTML）：`https://raw.githack.com/EricZhou-math/blood-test-dashboard/main/index.html`
 
 ## 项目简介
@@ -31,7 +31,7 @@
 5. 查看图表和表格中的数据变化
 
 ### 生成可分享二维码
-- 默认链接（稳定）：`https://ericzhou_math.gitee.io/blood-test-dashboard/`
+- 默认链接（稳定）：`https://ericzhou-math.github.io/blood-test-dashboard/`
 - 一键生成：
   ```bash
   cd blood-test-dashboard
@@ -74,7 +74,7 @@
 
 ## 二维码预览
 
-直接扫码访问仪表盘（默认指向 Gitee Pages 主入口）：
+直接扫码访问仪表盘（默认指向 GitHub Pages 主入口）：
 
 ![血常规仪表盘二维码](https://cdn.jsdelivr.net/gh/EricZhou-math/blood-test-dashboard@main/qrcode.png?v=20251022)
 

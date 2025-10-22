@@ -21,7 +21,7 @@ import sys
 
 import qrcode
 
-DEFAULT_LINK = "https://ericzhou_math.gitee.io/blood-test-dashboard/"
+DEFAULT_LINK = "https://ericzhou-math.github.io/blood-test-dashboard/"
 
 
 def make_qr(link: str, size: int = 200):
