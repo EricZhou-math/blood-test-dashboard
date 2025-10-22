@@ -6,8 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Cache-Control" content="no-transform">
   <meta http-equiv="Cache-Control" content="no-siteapp">
+  <!--
+    jsDelivr CDN 访问与版本说明：
+    - 主链接： https://cdn.jsdelivr.net/gh/EricZhou-math/blood-test-dashboard@main/index.html
+    - 版本切换：将 URL 中的 @main 替换为 Git 标签（如 @v1.0）
+      创建标签：
+        git tag v1.0
+        git push --tags
+    - 缓存刷新：
+      单文件刷新示例：
+        https://purge.jsdelivr.net/gh/EricZhou-math/blood-test-dashboard@main/index.html
+      批量刷新建议：
+        变更文件逐个执行上述刷新，或在发布后等待 CDN 自动更新。
+  -->
   <title>血常规仪表盘（增强版）</title>
-  <script src="chart.min.js"></script>
+  <script src="chart.min.js?v=20251022"></script>
   <style>
     body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif;margin:24px;color:#222}
     h1{font-size:20px;margin:0 0 12px}

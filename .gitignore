@@ -1,0 +1,3 @@
+# Exclude potential secret files
+github_api.csv
+github_api_sanitized.csv

@@ -1,25 +1,21 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# 一键生成二维码脚本
-# 用法：
-#   ./make_qr.sh [url]
-# 不传url时默认： https://ericzhou_math.gitee.io/blood-test-dashboard/
+VENV=".venv"
+REQS="requirements.txt"
 
-URL_DEFAULT="https://ericzhou_math.gitee.io/blood-test-dashboard/"
-URL_INPUT="${1:-$URL_DEFAULT}"
+URL_DEFAULT="https://cdn.jsdelivr.net/gh/EricZhou-math/blood-test-dashboard@main/index.html?v=20251022"
+URL_INPUT=${1:-$URL_DEFAULT}
 
-# 优先使用父目录的虚拟环境，否则在当前目录创建
-if [ -f "../.venv/bin/activate" ]; then
-  . ../.venv/bin/activate
-else
-  if [ ! -d ".venv" ]; then
-    python3 -m venv .venv
-  fi
-  . .venv/bin/activate
+if [ ! -d "$VENV" ]; then
+  python3 -m venv "$VENV"
 fi
 
-pip install --quiet "qrcode[pil]"
-python generate_qr.py "$URL_INPUT"
+source "$VENV/bin/activate"
 
-echo "二维码已生成: $(pwd)/qrcode.png"
+pip install -q --upgrade pip
+pip install -q qrcode[pil]
+
+python generate_qr.py --link "$URL_INPUT" --size 200 --output "qrcode.png" --base64
+
+echo "二维码已生成：qrcode.png；Base64 已输出：qrcode_base64.txt"

@@ -1,13 +1,11 @@
 # 血常规仪表盘
 
-> 微信与各品牌手机扫码可直接打开：
->
-> ![仪表盘二维码（rawcdn.githack 直链）](qrcode.png)
->
-> 主链接（稳定）：https://rawcdn.githack.com/EricZhou-math/blood-test-dashboard/main/index.html
-> 备用链接（更新更快）：https://raw.githack.com/EricZhou-math/blood-test-dashboard/main/index.html
->
-> 扫码提示：保持二维码白色边框，避免裁剪；如微信内置浏览器出现加载慢，可点击右上角“在浏览器打开”。
+## 🔗 国内快速访问
+推荐用手机扫描下方二维码，或直接访问链接：
+`https://cdn.jsdelivr.net/gh/EricZhou-math/blood-test-dashboard@main/index.html?v=20251022`
+![项目访问二维码](https://cdn.jsdelivr.net/gh/EricZhou-math/blood-test-dashboard@main/qrcode.png?v=20251022)
+- 备用：直接嵌入Base64见文件 `qrcode_base64.txt`
+> 提示：若链接加载缓慢，可尝试备用CDN： `https://fastly.jsdelivr.net/gh/EricZhou-math/blood-test-dashboard@main/index.html?v=20251022`
 
 ## 项目简介
 
@@ -32,7 +30,7 @@
 5. 查看图表和表格中的数据变化
 
 ### 生成可分享二维码
-- 默认链接（稳定）：`https://rawcdn.githack.com/EricZhou-math/blood-test-dashboard/main/index.html`
+- 默认链接（稳定）：`https://cdn.jsdelivr.net/gh/EricZhou-math/blood-test-dashboard@main/index.html?v=20251022`
 - 一键生成：
   ```bash
   cd blood-test-dashboard
@@ -75,9 +73,17 @@
 
 ## 二维码预览
 
-直接扫码访问仪表盘（指向当前稳定直链 rawcdn.githack）：
+直接扫码访问仪表盘（默认指向 jsDelivr 主链接）：
 
-![血常规仪表盘二维码](qrcode.png)
+![血常规仪表盘二维码](https://cdn.jsdelivr.net/gh/EricZhou-math/blood-test-dashboard@main/qrcode.png?v=20251022)
+
+### 缓存刷新指南
+- 单文件刷新：访问 `https://purge.jsdelivr.net/gh/EricZhou-math/blood-test-dashboard@main/index.html`
+- 批量刷新建议：发布后等待 CDN 自动更新；或对变更的每个文件分别执行上述刷新。
+- 版本切换：将链接中的 `@main` 改为 Git 标签（如 `@v1.0`）。
+- 创建标签并推送：
+  - `git tag v1.0`
+  - `git push --tags`
 
 如需更新链接，可使用脚本重新生成二维码：
 - `./make_qr.sh https://your.domain/path/`
