@@ -45,6 +45,26 @@
     @media (min-width: 769px){
       canvas.chart-canvas{height:320px}
     }
+
+    /* Device mode overrides */
+    body[data-mode="mobile"]{margin:12px;font-size:14px}
+    body[data-mode="mobile"] h1{font-size:18px}
+    body[data-mode="mobile"] #controls{gap:12px}
+    body[data-mode="mobile"] #controls .box{padding:8px}
+    body[data-mode="mobile"] select{font-size:14px;padding:6px}
+    body[data-mode="mobile"] button{font-size:14px;padding:6px 10px}
+    body[data-mode="mobile"] table{font-size:12px}
+    body[data-mode="mobile"] .metric-title{font-size:14px}
+    body[data-mode="mobile"] canvas.chart-canvas{height:240px}
+
+    body[data-mode="tablet"]{margin:16px;font-size:15px}
+    body[data-mode="tablet"] h1{font-size:19px}
+    body[data-mode="tablet"] #controls{gap:14px}
+    body[data-mode="tablet"] canvas.chart-canvas{height:300px}
+
+    body[data-mode="desktop"]{margin:24px;font-size:16px}
+    body[data-mode="desktop"] h1{font-size:20px}
+    body[data-mode="desktop"] canvas.chart-canvas{height:360px}
   </style>
 </head>
 <body>
@@ -181,6 +201,30 @@
       lab.appendChild(document.createTextNode(" 显示趋势线"));
       box3.appendChild(lab);
       wrap.appendChild(box3);
+
+      // 设备模式选择
+      const box4 = document.createElement("div");
+      box4.className = "box";
+      box4.innerHTML = "<div style='font-weight:600;margin-bottom:6px'>显示模式</div>";
+      const modes = [
+        {id:'modeAuto', val:'auto', text:'自动'},
+        {id:'modeMobile', val:'mobile', text:'手机'},
+        {id:'modeTablet', val:'tablet', text:'Pad'},
+        {id:'modeDesktop', val:'desktop', text:'电脑'},
+      ];
+      modes.forEach(m=>{
+        const lab = document.createElement('label');
+        const rb = document.createElement('input');
+        rb.type = 'radio';
+        rb.name = 'mode';
+        rb.id = m.id;
+        rb.value = m.val;
+        rb.addEventListener('change', ()=>applyMode(rb.value));
+        lab.appendChild(rb);
+        lab.appendChild(document.createTextNode(' '+m.text));
+        box4.appendChild(lab);
+      });
+      wrap.appendChild(box4);
     }
 
     function subset(arr, start, end){ return arr.slice(start, end+1); }
@@ -284,9 +328,29 @@
 
     // 初始渲染（为避免未创建控件时报错，创建临时占位元素）
     buildControls();
-    // 窄屏与旋转自适应：在尺寸变化时延迟重绘，避免抖动
-    window.addEventListener('orientationchange', ()=>setTimeout(updateView,100));
-    window.addEventListener('resize', ()=>{ clearTimeout(window.__rt); window.__rt = setTimeout(updateView,150); });
+    initMode();
+    // 窄屏与旋转自适应：在尺寸变化时，如为“自动模式”则重新判定并重绘
+    function detectMode(){ const w = window.innerWidth; return w<=768 ? 'mobile' : (w<=1024 ? 'tablet' : 'desktop'); }
+    function applyMode(mode){
+      window.__selectedMode = mode;
+      localStorage.setItem('viewMode', mode);
+      const actual = (mode === 'auto') ? detectMode() : mode;
+      document.body.setAttribute('data-mode', actual);
+      setTimeout(updateView, 50);
+    }
+    function initMode(){
+      const saved = localStorage.getItem('viewMode') || 'auto';
+      const radios = {
+        auto: document.getElementById('modeAuto'),
+        mobile: document.getElementById('modeMobile'),
+        tablet: document.getElementById('modeTablet'),
+        desktop: document.getElementById('modeDesktop'),
+      };
+      if(radios[saved]) radios[saved].checked = true;
+      applyMode(saved);
+    }
+    window.addEventListener('orientationchange', ()=>{ if((window.__selectedMode||'auto')==='auto'){ applyMode('auto'); } else { setTimeout(updateView,100); } });
+    window.addEventListener('resize', ()=>{ clearTimeout(window.__rt); window.__rt = setTimeout(()=>{ if((window.__selectedMode||'auto')==='auto'){ applyMode('auto'); } else { updateView(); } }, 150); });
     const tmpStart = document.createElement('select'); tmpStart.id='startSel'; tmpStart.value=0;
     const tmpEnd = document.createElement('select'); tmpEnd.id='endSel'; tmpEnd.value=dates.length-1;
     const tmpTrend = document.createElement('input'); tmpTrend.id='trendToggle'; tmpTrend.type='checkbox'; tmpTrend.checked=false;
