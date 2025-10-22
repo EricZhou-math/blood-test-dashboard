@@ -51,12 +51,12 @@
 
 ## 文件说明
 
-- `index.html` - 主仪表盘页面
-- `blood-test-data.csv` - 血常规数据文件
-- `chart.min.js` - 图表库文件
+- `index.html` - 主仪表盘页面（入口：`https://ericzhou-math.github.io/blood-test-dashboard/`）
+- `blood-test-data.csv` - 血常规数据文件（jsDelivr：`https://cdn.jsdelivr.net/gh/EricZhou-math/blood-test-dashboard@main/blood-test-data.csv?v=20251022`）
+- `chart.min.js` - 图表库文件（jsDelivr：`https://cdn.jsdelivr.net/gh/EricZhou-math/blood-test-dashboard@main/chart.min.js?v=20251022`）
 - `generate_qr.py` - 生成二维码的Python脚本
 - `make_qr.sh` - 一键生成二维码脚本（自动安装依赖）
-- `qrcode.png` - 生成的二维码图片
+- `qrcode.png` - 生成的二维码图片（jsDelivr：`https://cdn.jsdelivr.net/gh/EricZhou-math/blood-test-dashboard@main/qrcode.png?v=20251022`）
 
 ## 技术栈
 
