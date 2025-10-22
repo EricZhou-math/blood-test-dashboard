@@ -1,5 +1,14 @@
 # 血常规仪表盘
 
+> 微信与各品牌手机扫码可直接打开：
+>
+> ![仪表盘二维码（rawcdn.githack 直链）](qrcode.png)
+>
+> 主链接（稳定）：https://rawcdn.githack.com/EricZhou-math/blood-test-dashboard/main/index.html
+> 备用链接（更新更快）：https://raw.githack.com/EricZhou-math/blood-test-dashboard/main/index.html
+>
+> 扫码提示：保持二维码白色边框，避免裁剪；如微信内置浏览器出现加载慢，可点击右上角“在浏览器打开”。
+
 ## 项目简介
 
 这是一个交互式血常规检测数据可视化仪表盘，专为化疗期间的血常规监测设计。
