@@ -11,7 +11,7 @@
     body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif;margin:24px;color:#222}
     h1{font-size:20px;margin:0 0 12px}
     section{margin-top:24px}
-    canvas{max-width:100%;}
+    canvas{max-width:100%;width:100%;height:auto;touch-action:pan-y;}
     table{border-collapse:collapse;width:100%;margin-top:8px;font-size:13px}
     th,td{border:1px solid #ddd;padding:6px;text-align:center}
     th{background:#fafafa}
@@ -28,6 +28,23 @@
     .small{font-size:12px;color:#666;margin-top:6px}
     button{padding:4px 8px;border:1px solid #ccc;background:#fafafa;border-radius:4px;margin-right:6px;cursor:pointer}
     button:hover{background:#f0f0f0}
+
+    /* Mobile & Tablet adjustments */
+    @media (max-width: 768px){
+      body{margin:12px;font-size:14px}
+      h1{font-size:18px}
+      #controls{gap:12px}
+      #controls .box{padding:8px}
+      select{font-size:14px;padding:6px}
+      button{font-size:14px;padding:6px 10px}
+      table{font-size:12px}
+      .metric-title{font-size:14px}
+      /* fixed canvas height to ensure visibility on mobile */
+      canvas.chart-canvas{height:240px}
+    }
+    @media (min-width: 769px){
+      canvas.chart-canvas{height:320px}
+    }
   </style>
 </head>
 <body>
@@ -193,10 +210,14 @@
           datasets: ds
         },
         options: {
-          plugins: { legend: { display:true } },
-          scales: { y: { beginAtZero:false } },
+          plugins: { legend: { display:true, position: "bottom" } },
+          scales: { x: { ticks: { maxRotation: 0 } }, y: { beginAtZero:false } },
           elements: { point: { radius:3 } },
-          responsive: true
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: false,
+          interaction: { mode: "index", intersect: false },
+          devicePixelRatio: window.devicePixelRatio || 1
         }
       });
     }
@@ -218,6 +239,7 @@
         h.textContent = `${m.name} (${m.unit}) 参考:${lowText}~${highText}`;
         wrap.appendChild(h);
         const c = document.createElement("canvas");
+        c.className = "chart-canvas";
         wrap.appendChild(c);
         makeChart(c.getContext("2d"), m.name, m.vals, m.low, m.high, showTrend, start);
       });
@@ -262,6 +284,9 @@
 
     // 初始渲染（为避免未创建控件时报错，创建临时占位元素）
     buildControls();
+    // 窄屏与旋转自适应：在尺寸变化时延迟重绘，避免抖动
+    window.addEventListener('orientationchange', ()=>setTimeout(updateView,100));
+    window.addEventListener('resize', ()=>{ clearTimeout(window.__rt); window.__rt = setTimeout(updateView,150); });
     const tmpStart = document.createElement('select'); tmpStart.id='startSel'; tmpStart.value=0;
     const tmpEnd = document.createElement('select'); tmpEnd.id='endSel'; tmpEnd.value=dates.length-1;
     const tmpTrend = document.createElement('input'); tmpTrend.id='trendToggle'; tmpTrend.type='checkbox'; tmpTrend.checked=false;
