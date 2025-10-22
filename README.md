@@ -77,3 +77,9 @@
 ---
 
 *本工具仅供参考，具体诊疗请咨询专业医生*
+---
+国内直出链接（Githack）
+
+https://rawcdn.githack.com/EricZhou-math/blood-test-dashboard/main/index.html
+
+建议微信扫码上方二维码直接打开仪表盘。
