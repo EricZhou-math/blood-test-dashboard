@@ -32,7 +32,7 @@
 5. 查看图表和表格中的数据变化
 
 ### 生成可分享二维码
-- 默认链接：`https://ericzhou_math.gitee.io/blood-test-dashboard/`
+- 默认链接（稳定）：`https://rawcdn.githack.com/EricZhou-math/blood-test-dashboard/main/index.html`
 - 一键生成：
   ```bash
   cd blood-test-dashboard
@@ -75,7 +75,7 @@
 
 ## 二维码预览
 
-直接扫码访问仪表盘（默认指向 Gitee Pages）：
+直接扫码访问仪表盘（指向当前稳定直链 rawcdn.githack）：
 
 ![血常规仪表盘二维码](qrcode.png)
 
@@ -86,9 +86,3 @@
 ---
 
 *本工具仅供参考，具体诊疗请咨询专业医生*
----
-国内直出链接（Githack）
-
-https://rawcdn.githack.com/EricZhou-math/blood-test-dashboard/main/index.html
-
-建议微信扫码上方二维码直接打开仪表盘。
