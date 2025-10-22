@@ -4,7 +4,7 @@ set -euo pipefail
 VENV=".venv"
 REQS="requirements.txt"
 
-URL_DEFAULT="https://cdn.jsdelivr.net/gh/EricZhou-math/blood-test-dashboard@main/index.html?v=20251022"
+URL_DEFAULT="https://ericzhou_math.gitee.io/blood-test-dashboard/"
 URL_INPUT=${1:-$URL_DEFAULT}
 
 if [ ! -d "$VENV" ]; then
