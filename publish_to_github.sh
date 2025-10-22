@@ -77,24 +77,11 @@ chmod +x "$GIT_ASKPASS_HELPER"
 GIT_TERMINAL_PROMPT=0 GIT_ASKPASS="$GIT_ASKPASS_HELPER" git push -u github main
 rm -f "$GIT_ASKPASS_HELPER"
 
-echo "[INFO] Push completed. Generating jsDelivr URL..."
-JS_URL_NOREF="https://cdn.jsdelivr.net/gh/${GITHUB_USER}/${REPO_NAME}/index.html"
-JS_URL_MAIN="https://cdn.jsdelivr.net/gh/${GITHUB_USER}/${REPO_NAME}@main/index.html"
+# Use GitHub Pages as the main entry (HTML), keep jsDelivr for assets
+echo "[INFO] Generating GitHub Pages URL..."
+FINAL_URL="https://${GITHUB_USER}.github.io/${REPO_NAME}/"
 
-# Verify availability (prefer @main to avoid edge caching of default branch)
-STATUS_MAIN=$(curl -s -o /dev/null -w "%{http_code}" "$JS_URL_MAIN")
-STATUS_NOREF=$(curl -s -o /dev/null -w "%{http_code}" "$JS_URL_NOREF")
-
-if [[ "$STATUS_MAIN" == "200" ]]; then
-  FINAL_URL="$JS_URL_MAIN"
-elif [[ "$STATUS_NOREF" == "200" ]]; then
-  FINAL_URL="$JS_URL_NOREF"
-else
-  echo "[WARN] jsDelivr not yet available (status: main=$STATUS_MAIN, noref=$STATUS_NOREF). It can take ~1-2 min."
-  FINAL_URL="$JS_URL_MAIN"
-fi
-
-echo "[INFO] jsDelivr URL: $FINAL_URL"
+echo "[INFO] GitHub Pages URL: $FINAL_URL"
 
 # Update QR code
 if [[ -f "generate_qr.py" ]]; then
@@ -105,7 +92,7 @@ fi
 
 # Append access URL to README (idempotent append)
 if [[ -f "README.md" ]]; then
-  echo "\n---\nGitHub + jsDelivr 访问地址\n\n$FINAL_URL\n\n使用微信扫码上方二维码可直接打开仪表盘。\n" >> README.md
+  echo "\n---\nGitHub Pages 主入口（静态资源走 jsDelivr）\n\n$FINAL_URL\n\n使用微信扫码上方二维码可直接打开仪表盘。\n" >> README.md
   git add README.md
 fi
 
@@ -113,9 +100,9 @@ echo "[INFO] Committing updated README/QR..."
 if git diff --cached --quiet; then
   echo "[INFO] No changes to commit."
 else
-  git commit -m "Publish via GitHub+jsDelivr: update QR and README with CDN URL"
+  git commit -m "Publish via GitHub Pages + jsDelivr: update QR and README with entry URL"
   echo "[INFO] Pushing updates..."
-  GIT_ASKPASS="$GIT_ASKPASS_HELPER" git push github main || true
+  git push github main || true
 fi
 
-echo "[DONE] Published to GitHub and accessible via jsDelivr: $FINAL_URL"
+echo "[DONE] Published to GitHub with GitHub Pages entry: $FINAL_URL"
