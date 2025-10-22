@@ -74,7 +74,7 @@ case "$1" in
 esac
 EOF
 chmod +x "$GIT_ASKPASS_HELPER"
-GIT_ASKPASS="$GIT_ASKPASS_HELPER" git push -u github main
+GIT_TERMINAL_PROMPT=0 GIT_ASKPASS="$GIT_ASKPASS_HELPER" git push -u github main
 rm -f "$GIT_ASKPASS_HELPER"
 
 echo "[INFO] Push completed. Generating jsDelivr URL..."
